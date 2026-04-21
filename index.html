@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ELECTIVOS DE DISEÑO</title>
+        <style>
+            *, *::before, *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --color-oscurisimo: hsl( 120, 50%, 10%);
+                --color-oscuro: hsl( 120, 50%, 50%);
+                --color-normal: hsl( 120, 50%, 50%);
+                --color-iluminado: hsl( 120, 50%, 80%);
+                --color-iluminadisimo: hsl( 120, 50%, 90%);
+				--fuente-serifa:Georgia, serif;
+				--fuente-palote:Helvetica, sans-serif;
+            }
+
+            body {
+                font-family: var(--fuente-palote);
+                color: var(--color-normal);
+                text-align: center;
+                font-size: 100%;
+            }
+            div#contenedor {
+                margin: 1rem auto;
+                width: 90%;
+                max-width: 780px;
+            }
+
+            h1 {
+                margin: 1rem 0;
+                font-weight: 400;
+                font-size: calc(100% + 3vw + 3vh);
+            }
+
+            h2 {
+                margin: 3rem 0;
+                font-weight: 400;
+                letter-spacing: 0.25rem;
+                font-size: calc(100% + 1vw + 1vh);
+                color: var(--color-oscuro);
+            }
+
+            input {
+                border: 0.1rem solid var(--color-iluminado);
+                padding: 0.5rem 1rem;
+                font-family: inherit;
+                font-size: 15px;
+                color: var(--color-oscuro);
+                outline: none;
+                margin-bottom: 1.5rem;
+                width: 100%;
+                display: block;
+                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%230a0" viewBox="0 0 100 100"><path d="M94.53,5.54V94.46H73.74l-1.85-6.15H88.38V11.69H49.75V29.4c-10.94,0-16.6,5-19.55,16.6l-1.73,6.64c-1.1,4.43,1.36,8.25,6.15,8.25H37l-1.47,6H30.44c-4.06,0-6.39,1.36-7.62,5l-3,8.85H46.31l3.44-3.32v17H5.47V5.54ZM66.36,88.31l1.84,6.15H59.35l-1.72-6.15L50,62.61H48.52L46.31,74.17l-3.44,3H25.28l1.23-3.81A3.87,3.87,0,0,1,30.2,70.6h8.11l7-29.76c-2.83.73-4.31,2.83-5.29,7l-1.73,7A3.26,3.26,0,0,1,35,57.69a3.1,3.1,0,0,1-2.83-4.06l1.73-6.77c2.58-10.08,7.25-13.77,17.22-13.77,7.75,0,11.81,3.32,10.08,11.19L57.75,59.9Zm-2.09-67.4c0,2.95,0,7.63-.86,9-.37.61-1.85,1.6-4.55,1.6-2.46,0-4.06-1-4.43-1.6-.86-1.48-1.11-6.27-1.11-9.23a3.11,3.11,0,0,1,.74-2.46,6.57,6.57,0,0,1,4.8-1.84,7.32,7.32,0,0,1,4.79,1.84C64.27,18.7,64.27,19.56,64.27,20.91Zm6.89,39a9.47,9.47,0,0,1-2.59-.49l-6.89-2L63,50.92l8.61,2.34a3.37,3.37,0,0,1-.49,6.64Z"></path></svg>');
+                background-repeat: no-repeat;
+                background-size: 1rem;
+                background-position: 99% center;
+            }
+
+            input::placeholder {
+                color: var(--color-iluminado);
+            }
+
+            input:focus {
+                border-color: var(--color-normal);
+            }
+
+            div#contenedordetabla {
+                overflow-x: auto;
+                font-size: 90%;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: left;
+                margin-bottom: 3rem;
+            }
+
+            thead {
+                background: var(--color-iluminado);
+            }
+
+            td,
+            th {
+                border: 1px solid var(--color-normal);
+                padding: 0.75rem;
+            }
+
+            td:nth-child(1),
+            th:nth-child(1),
+            td:nth-child(3),
+            th:nth-child(3) {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="contenedor">
+            <h1>ദ്ദി◝ ⩊ ◜.ᐟ</h1>
+            <h2>ELECTIVOS DE DISEÑO</h2>
+
+            <input type="text" id="elInput" placeholder="Filtrar electivos…" />
+            <div id="contenedordetabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Asignatura electiva</th>
+                            <th>Mención</th>
+                            <th>Grupo</th>
+                            <th>Enfoque</th>
+                        </tr>
+                    </thead>
+                    <tbody id="este"></tbody>
+                </table>
+            </div>
+            <small>Diseño y visualización de información</small>
+        </div>
+
+        <script>
+            const t = document.querySelector("#este");
+            const URL = "https://api.myjson.online/v1/records/35b31dac-49e1-4d8a-a7d0-0322b60d7ed4";
+
+            fetch(URL)
+                .then((respuesta) => {
+                    if (!respuesta.ok) {
+                        throw new Error("Error HTTP: " + respuesta.status);
+                    }
+                    return respuesta.json();
+                })
+                .then((datos) => {
+                    var trabajo = datos.data;
+                    console.log(trabajo);
+                    trabajo.forEach((x) => {
+                        t.innerHTML += `<tr style="${x.ok == 1 ? "background-color: var(--color-iluminadisimo); color: var(--color-oscurisimo)" : ""}"><td>${x.id}</td><td>${x.name}</td><td>${x.track}</td><td>${x.group}</td><td>${x.focus}</td></tr>`;
+                    });
+                })
+                .catch((error) => {
+                    console.error("Algo salió mal:", error);
+                });
+
+            function sinAcentos(str) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            document.getElementById("elInput").addEventListener("keyup", function () {
+                const valor = sinAcentos(this.value.toLowerCase());
+                document.querySelectorAll("#este tr").forEach(function (fila) {
+                    fila.style.display = sinAcentos(fila.textContent.toLowerCase()).includes(valor) ? "" : "none";
+                });
+            });
+        </script>
+    </body>
+</html>
